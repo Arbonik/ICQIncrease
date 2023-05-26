@@ -3,11 +3,12 @@ package com.arbonik.icqincrease.presentation.games
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.arbonik.icqincrease.core.Example
 import com.arbonik.icqincrease.databinding.Game1ExampleItemBinding
 import com.arbonik.icqincrease.presentation.view_pager.AdapterViewPager
 
 class Game1Adapter(
-//    private val multiStageRepository: MultiStageRepository
+    private val examples : List<Example>
 ) : AdapterViewPager<Game1Adapter.ViewHolder>() {
 
 
@@ -17,10 +18,16 @@ class Game1Adapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        with(holder.binding) {
+            number1.text = examples[position].first.toString()
+            number2.text = examples[position].second.toString()
+            operator.text = examples[position].op.s
+            result.text.clear()
+        }
         holderCache[position] = holder
     }
 
-    override fun getItemCount(): Int = 50
+    override fun getItemCount(): Int = examples.size
 
     class ViewHolder(val binding: Game1ExampleItemBinding) : RecyclerView.ViewHolder(binding.root)
 }

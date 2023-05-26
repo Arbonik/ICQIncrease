@@ -1,4 +1,4 @@
-package com.mpmep.plugins.core
+package com.arbonik.icqincrease.core
 
 import kotlinx.serialization.Serializable
 

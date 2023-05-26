@@ -8,15 +8,21 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.arbonik.icqincrease.R
 import com.arbonik.icqincrease.databinding.FragmentGameBinding
 import com.arbonik.icqincrease.presentation.view_pager.RealizationViewPager
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 
 class GameFragment : Fragment() {
 
     private lateinit var binding: FragmentGameBinding
     private lateinit var viewPager: RealizationViewPager<Game1Adapter.ViewHolder>
-    private lateinit var adapter: Game1Adapter
+    private var currentPos = 0
+    private val viewModel: Game1ViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,17 +34,24 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = Game1Adapter()
+
         viewPager = RealizationViewPager(
             binding.viewPager,
-            adapter,
+            viewModel.adapter,
             ::initViewsOnCurrentPage,
             ::onPageSelected
         )
+        initListeners()
+    }
+
+    private fun initListeners() {
+        viewModel.nextStateFlow.onEach {
+            viewPager.jumpOnPageViewPager(currentPos++)
+        }.launchIn(lifecycleScope)
     }
 
     private fun onPageSelected(pos: Int) {
-        val holder = adapter.getViewHolderByPosition(pos)
+        val holder = viewModel.adapter.getViewHolderByPosition(pos)
         holder?.let {
             focusInputAndAppearanceKeyboard(it.binding.result)
         }
@@ -48,6 +61,22 @@ class GameFragment : Fragment() {
         with(holder.binding) {
             skipButton.setOnClickListener {
                 viewPager.jumpOnPageViewPager(pos + 1)
+                viewModel.skip()
+            }
+
+            result.setOnKeyListener { v, keyCode, event ->
+                val text = result.text.toString()
+                if(text.length >= 9 && keyCode != 67){
+                    return@setOnKeyListener true
+                }
+                if (text.isNotBlank() && text != "-") {
+                    result.backgroundTintList = resources.getColorStateList(R.color.read)
+                    viewModel.checkResult(text.toInt())
+                } else {
+                    result.backgroundTintList =
+                        resources.getColorStateList(androidx.appcompat.R.color.material_blue_grey_800)
+                }
+                false
             }
         }
     }
