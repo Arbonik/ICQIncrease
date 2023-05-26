@@ -1,7 +1,7 @@
 package com.mpmep.classes
 
-import com.mpmep.plugins.core.ExampleState
-import com.mpmep.plugins.core.Operate
+import com.arbonik.icqincrease.core.ExampleState
+import com.arbonik.icqincrease.core.Operate
 import kotlinx.serialization.Serializable
 
 @Serializable

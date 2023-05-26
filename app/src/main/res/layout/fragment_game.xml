@@ -9,5 +9,18 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
+    <TextView
+        android:id="@+id/progress_info"
+        tools:text="WHAT HAPPENED"
+        android:visibility="gone"
+        android:textColor="@color/red"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </FrameLayout>

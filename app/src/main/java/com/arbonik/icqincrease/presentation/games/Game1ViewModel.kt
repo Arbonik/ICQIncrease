@@ -19,7 +19,7 @@ class Game1ViewModel: ViewModel() {
     val nextStateFlow = game.currentExample
 
     init {
-        adapter = Game1Adapter(game.examples)
+        adapter = Game1Adapter(game.examples.toMutableList())
         Integer.MAX_VALUE
     }
 

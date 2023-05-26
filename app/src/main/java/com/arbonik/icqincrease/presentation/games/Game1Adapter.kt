@@ -3,15 +3,19 @@ package com.arbonik.icqincrease.presentation.games
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.arbonik.icqincrease.core.Example
+import com.arbonik.icqincrease.core.ExampleState
 import com.arbonik.icqincrease.databinding.Game1ExampleItemBinding
 import com.arbonik.icqincrease.presentation.view_pager.AdapterViewPager
 
 class Game1Adapter(
-    private val examples : List<Example>
+    private val examples : MutableList<ExampleState.Example>
 ) : AdapterViewPager<Game1Adapter.ViewHolder>() {
 
-
+    fun addItem(item : ExampleState.Example){
+        examples.add(item)
+//        notifyItemChanged(examples.lastIndex)
+        notifyDataSetChanged()
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = Game1ExampleItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)

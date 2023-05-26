@@ -1,4 +1,4 @@
-package com.arbonik.icqincrease
+package com.arbonik.icqincrease.presentation.games
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,8 +29,14 @@ class OnlineGameViewModel : ViewModel() {
     private val _sharedFlowIn : MutableSharedFlow<WSServerResponse> = MutableSharedFlow()
     val sharedFlowIn : SharedFlow<WSServerResponse> = _sharedFlowIn
     fun connectToRoom(){
+        // TODO progress bar
         viewModelScope.launch {
-            val id = NetworkDataSource.createRoom().id
+            val rooms = NetworkDataSource.allRoom()
+            val id = if (rooms.isNotEmpty()){
+                rooms.random().id
+            } else {
+                NetworkDataSource.createRoom().id
+            }
 
             NetworkDataSource.connectToGame(
                 id,

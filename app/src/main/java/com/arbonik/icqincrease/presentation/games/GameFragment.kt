@@ -70,7 +70,7 @@ class GameFragment : Fragment() {
                     return@setOnKeyListener true
                 }
                 if (text.isNotBlank() && text != "-") {
-                    result.backgroundTintList = resources.getColorStateList(R.color.read)
+                    result.backgroundTintList = resources.getColorStateList(R.color.red)
                     viewModel.checkResult(text.toInt())
                 } else {
                     result.backgroundTintList =
