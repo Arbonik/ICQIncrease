@@ -29,5 +29,4 @@ class MainActivity : AppCompatActivity(), Navigator {
             .replace(R.id.fragment_container, fragment)
             .commit()
     }
-
 }
