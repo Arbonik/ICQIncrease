@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".presentation.MenuFragment">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/game1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Game 1" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/onlineGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Игра по сети" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/statistic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Статистика" />
+
+</LinearLayout>

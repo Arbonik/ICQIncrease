@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.StatisticsFragment">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="100dp"
+    tools:context=".presentation.statistics.StatisticsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="300dp" />
 
-</FrameLayout>
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="300dp"
+        android:background="#E3E0E0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Пояснение"
+        android:textSize="25sp" />
+
+</LinearLayout>

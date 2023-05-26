@@ -39,7 +39,14 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+
+    packagingOptions {
+        exclude("META-INF/proguard/androidx-annotations.pro")
+    }
 }
+
+
 
 dependencies {
     val ktor_version = "2.3.0"
@@ -48,6 +55,7 @@ dependencies {
 
     val lifecycle_version = "2.6.1"
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
     implementation("androidx.activity:activity-ktx:1.7.2")
     implementation("androidx.fragment:fragment-ktx:1.5.7")

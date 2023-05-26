@@ -1,5 +1,12 @@
 package com.arbonik.icqincrease
 
-interface Navigation {
+import androidx.fragment.app.Fragment
+
+fun Fragment.navigator(): Navigator {
+    return requireActivity() as Navigator
+}
+interface Navigator {
     fun showGameFragment()
+    fun showStatisticsFragment()
+    fun showMenuFragment()
 }
