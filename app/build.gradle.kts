@@ -42,8 +42,16 @@ dependencies {
     val ktor_version = "2.3.0"
     implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+    implementation("io.ktor:ktor-client-core:$ktor_version")
+    implementation("io.ktor:ktor-client-cio:$ktor_version")
+    implementation("io.ktor:ktor-client-websockets:$ktor_version")
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+    implementation("androidx.fragment:fragment-ktx:1.5.7")
+    implementation("io.ktor:ktor-client-logging:$ktor_version")
+    implementation("org.slf4j:slf4j-simple:2.0.0-alpha1")
+
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)

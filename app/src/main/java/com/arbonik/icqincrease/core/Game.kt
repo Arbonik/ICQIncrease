@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 
 class Game(
-    val examples : List<Example>,
+    val examples : List<ExampleState.Example>,
     val coroutineScope: CoroutineScope
 ){
 
@@ -21,7 +21,7 @@ class Game(
 
     private val _currentExample : MutableStateFlow<Int> = MutableStateFlow(0)
 
-    val currentExample : StateFlow<Example> = _currentExample.map {
+    val currentExample : StateFlow<ExampleState.Example> = _currentExample.map {
         examples[it]
     }.stateIn(coroutineScope, SharingStarted.Lazily, examples.first())
 
@@ -43,7 +43,7 @@ class Game(
     }
 }
 
-fun generateExample(level : Int = 1): Example {
+fun generateExample(level : Int = 1): ExampleState.Example {
     val negativeN = -(level * 10 / 2)
     val positiveN = (level * 10 / 2)
     val range = negativeN..positiveN
@@ -53,5 +53,5 @@ fun generateExample(level : Int = 1): Example {
         Operate.values().random()
     else
         listOf(Operate.MINUS, Operate.PLUS, Operate.MULTI).random()
-    return Example(first, second, operate)
+    return ExampleState.Example(first, second, operate)
 }
