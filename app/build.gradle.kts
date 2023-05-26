@@ -2,6 +2,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+
+    kotlin("plugin.serialization") version "1.8.21"
 }
 
 android {
@@ -37,7 +39,11 @@ android {
 }
 
 dependencies {
+    val ktor_version = "2.3.0"
+    implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
 
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
