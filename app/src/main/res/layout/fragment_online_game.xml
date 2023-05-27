@@ -38,6 +38,17 @@
         tools:text="49" />
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Счет"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/youCounter"
+        app:layout_constraintEnd_toStartOf="@+id/enemyCounter"
+        app:layout_constraintStart_toEndOf="@+id/youCounter"
+        app:layout_constraintTop_toTopOf="@+id/youCounter" />
+    <TextView
         tools:text="wqwd"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@+id/youCounter"
@@ -46,6 +57,7 @@
         android:layout_height="wrap_content"/>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,12 +98,20 @@
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/skip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Пропустить" />
+
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:backgroundTint="@color/dark_red"
+        android:text="Пропустить"
+        app:icon="@drawable/baseline_assignment_late_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

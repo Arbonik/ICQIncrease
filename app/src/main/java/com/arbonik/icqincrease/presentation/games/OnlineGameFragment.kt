@@ -24,8 +24,6 @@ class OnlineGameFragment : Fragment() {
     private lateinit var binding: FragmentOnlineGameBinding
 
     private val viewModel: OnlineGameViewModel by viewModels()
-    private var countEnemyCounter = -1
-    private var countYouCounter = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,15 +56,15 @@ class OnlineGameFragment : Fragment() {
                 GameStatus.EMPTY -> {
                     if (serverResponse.example is ExampleState.Example) {
                         binding.progressInfo.text = "Верно!"
-                        countYouCounter++
                         binding.example.text = serverResponse.example.toString()
-                        binding.youCounter.text = countYouCounter.toString()
                         binding.progress.isVisible = false
+                        binding.inputText.text?.clear()
                         binding.inputText.requestFocus()
                         val showKeyboard =
                             requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                         showKeyboard.showSoftInput(binding.inputText, InputMethodManager.SHOW_IMPLICIT)
                         binding.inputText.requestFocus()
+                        binding.youCounter.text = (serverResponse.score ?: -1).toString()
                     }
                 }
 
@@ -79,8 +77,8 @@ class OnlineGameFragment : Fragment() {
                 }
 
                 GameStatus.GOT_NEW_EXAMPLE -> {
-                    countEnemyCounter++
-                    binding.enemyCounter.text = countEnemyCounter.toString()
+
+                    binding.enemyCounter.text = (serverResponse.score ?: -1).toString()
                     binding.enemyCounter
                 }
 
