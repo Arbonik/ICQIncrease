@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.arbonik.icqincrease.network.NetworkDataSource
 import com.mpmep.classes.WSServerResponse
 import com.mpmep.plugins.core.ExampleResponse
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
@@ -28,23 +29,26 @@ class OnlineGameViewModel : ViewModel() {
 
     private val _sharedFlowIn : MutableSharedFlow<WSServerResponse> = MutableSharedFlow()
     val sharedFlowIn : SharedFlow<WSServerResponse> = _sharedFlowIn
-    fun connectToRoom(gender: String, age: Int){
-        // TODO progress bar
-        viewModelScope.launch {
-            val rooms = NetworkDataSource.allRoom()
-            val id = if (rooms.isNotEmpty()){
-                rooms.random().id
-            } else {
-                NetworkDataSource.createRoom().id
-            }
 
-            NetworkDataSource.connectToGame(
-                id,
-                gender,
-                age,
-                sharedFlowOut,
-                _sharedFlowIn,
-            )
+    private var gameJob : Job? = null
+    fun connectToRoom(gender: String, age: Int){
+        if (gameJob == null){
+            gameJob = viewModelScope.launch {
+                val rooms = NetworkDataSource.allRoom()
+                val id = if (rooms.isNotEmpty()){
+                    rooms.random().id
+                } else {
+                    NetworkDataSource.createRoom().id
+                }
+
+                NetworkDataSource.connectToGame(
+                    id,
+                    gender,
+                    age,
+                    sharedFlowOut,
+                    _sharedFlowIn,
+                )
+            }
         }
     }
 }
