@@ -19,8 +19,24 @@
         android:textSize="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/status_info"
+        tools:text="WHAT HAPPENED"
+        android:textColor="#00FF00"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <ProgressBar
         android:id="@+id/progress"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <EditText
+        android:id="@+id/enterAnswer"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </FrameLayout>

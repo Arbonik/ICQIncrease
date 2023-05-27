@@ -1,5 +1,6 @@
-package com.arbonik.icqincrease.core
+package com.mpmep.plugins.core
 
+import com.arbonik.icqincrease.core.Operate
 import kotlinx.serialization.Serializable
 
 @Serializable

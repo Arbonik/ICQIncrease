@@ -8,23 +8,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.arbonik.icqincrease.R
-import com.arbonik.icqincrease.core.ExampleState
 import com.arbonik.icqincrease.databinding.FragmentGameBinding
-import com.arbonik.icqincrease.presentation.view_pager.RealizationViewPager
 import com.mpmep.classes.GameStatus
+import com.mpmep.plugins.core.ExampleState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class OnlineGameFragment :  Fragment(){
+class OnlineGameFragment : Fragment(){
 
     private lateinit var binding: FragmentGameBinding
-    private lateinit var viewPager: RealizationViewPager<Game1Adapter.ViewHolder>
+//    private lateinit var viewPager: RealizationViewPager<Game1Adapter.ViewHolder>
     private var currentPos = 0
 
     private val adapter: Game1Adapter by lazy {
@@ -42,12 +41,16 @@ class OnlineGameFragment :  Fragment(){
         super.onViewCreated(view, savedInstanceState)
         viewModel.connectToRoom()
 
-        viewPager = RealizationViewPager(
-            binding.viewPager,
-            adapter,
-            ::initViewsOnCurrentPage,
-            ::onPageSelected
-        )
+        binding.enterAnswer.addTextChangedListener { it ->
+            if (it?.isNotEmpty() == true)
+                viewModel.sendAnswer(it.toString().toInt())
+        }
+//        viewPager = RealizationViewPager(
+//            binding.viewPager,
+//            adapter,
+//            ::initViewsOnCurrentPage,
+//            ::onPageSelected
+//        )
         initListeners()
     }
 
@@ -55,14 +58,35 @@ class OnlineGameFragment :  Fragment(){
         viewModel.sharedFlowIn.onEach { serverResponse->
             when (serverResponse.gameStatus){
                 GameStatus.EMPTY -> {
-                    if (serverResponse.example is ExampleState.Example)
+                    if (serverResponse.example is ExampleState.Example) {
+                        binding.statusInfo.text = serverResponse.example.toString()
+
                         adapter.addItem(serverResponse.example)
-                    else
+                        binding.progressInfo.text = serverResponse.example.toString()
+                        binding.progressInfo.visibility = View.VISIBLE
+//                        viewPager.jumpOnPageViewPager(currentPos++)
+//                        val view = Game1ExampleItemBinding.inflate(LayoutInflater.from(requireContext()), binding.root, false)
+//
+//                        view.number1.text = serverResponse.example.toString()
+//                        AlertDialog.Builder(requireContext())
+//                            .setTitle("Вы выиграли")
+//                            .setView(view.root)
+//                            .setOnDismissListener {
+//                                parentFragmentManager.popBackStack()
+//                            }
+//                            .setPositiveButton ("Ура!"){ dialog, _ ->
+//                                dialog.dismiss()
+//                            }
+//                            .create()
+//                            .show()
+
+                    }
+//                    else
                         // TODO вопросы кончились
-                    viewPager.jumpOnPageViewPager(currentPos++)
                 }
 
                 GameStatus.READY -> {
+
                     binding.progress.visibility = View.GONE
                     binding.progressInfo.visibility = View.GONE
                 }
@@ -131,7 +155,7 @@ class OnlineGameFragment :  Fragment(){
         with(holder.binding) {
             skipButton.setOnClickListener {
                 viewModel.skipAnswer()
-                viewPager.jumpOnPageViewPager(pos + 1)
+//                viewPager.jumpOnPageViewPager(pos + 1)
             }
 
             result.setOnKeyListener { v, keyCode, event ->
@@ -165,6 +189,6 @@ class OnlineGameFragment :  Fragment(){
 
     companion object {
         @JvmStatic
-        fun newInstance() = GameFragment()
+        fun newInstance() = OnlineGameFragment()
     }
 }

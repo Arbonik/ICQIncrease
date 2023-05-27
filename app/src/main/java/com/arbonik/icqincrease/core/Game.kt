@@ -1,5 +1,6 @@
 package com.arbonik.icqincrease.core
 
+import com.mpmep.plugins.core.ExampleState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -3,9 +3,9 @@ package com.arbonik.icqincrease.presentation.games
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.arbonik.icqincrease.core.ExampleState
 import com.arbonik.icqincrease.databinding.Game1ExampleItemBinding
 import com.arbonik.icqincrease.presentation.view_pager.AdapterViewPager
+import com.mpmep.plugins.core.ExampleState
 
 class Game1Adapter(
     private val examples : MutableList<ExampleState.Example>
