@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -57,7 +58,7 @@ class OnlineGameFragment : Fragment() {
                     if (serverResponse.example is ExampleState.Example) {
                         binding.progressInfo.text = "Верно!"
                         binding.example.text = serverResponse.example.toString()
-                        binding.progress.isVisible = false
+                        binding.progress.isInvisible = true
                         binding.inputText.text?.clear()
                         binding.inputText.requestFocus()
                         val showKeyboard =
@@ -69,7 +70,7 @@ class OnlineGameFragment : Fragment() {
                 }
 
                 GameStatus.READY -> {
-                    binding.progress.visibility = View.GONE
+                    binding.progress.isInvisible = true
                 }
 
                 GameStatus.FALSE -> {
@@ -90,8 +91,8 @@ class OnlineGameFragment : Fragment() {
                 }
 
                 GameStatus.WIN -> {
-                    binding.progress.visibility = View.GONE
-                    binding.progressInfo.visibility = View.GONE
+                    binding.progress.isInvisible = true
+                    binding.progressInfo.isVisible = true
                     AlertDialog.Builder(requireContext())
                         .setTitle("Вы выиграли")
                         .setOnDismissListener {
@@ -105,7 +106,7 @@ class OnlineGameFragment : Fragment() {
                 }
 
                 GameStatus.LOSE -> {
-                    binding.progress.visibility = View.GONE
+                    binding.progress.isInvisible = true
                     binding.progressInfo.visibility = View.GONE
 
                     AlertDialog.Builder(requireContext())
@@ -124,7 +125,7 @@ class OnlineGameFragment : Fragment() {
                 }
 
                 GameStatus.AWAIT -> {
-                    binding.progress.visibility = View.VISIBLE
+                    binding.progress.isInvisible = false
                     binding.progressInfo.visibility = View.VISIBLE
                     binding.progressInfo.text = "Ждем подключение игрока"
                 }

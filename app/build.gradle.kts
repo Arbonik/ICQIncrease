@@ -66,7 +66,7 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.5.7")
     implementation("io.ktor:ktor-client-logging:$ktor_version")
     implementation("org.slf4j:slf4j-simple:2.0.0-alpha1")
-
+    implementation("me.tankery.lib:circularSeekBar:1.4.2")
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)

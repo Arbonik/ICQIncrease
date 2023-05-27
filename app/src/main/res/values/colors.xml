@@ -5,6 +5,7 @@
     <color name="red">#FF0000</color>
     <color name="dark_red">#AA0000</color>
     <color name="dark">#10374F</color>
+    <color name="dark_transparent">#2910374F</color>
     <color name="background_global">#D9D2B6</color>
     <color name="global_text_on_dark">#F2F2F2</color>
     <color name="global_text_on_white">#10374F</color>
