@@ -64,6 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Счет"
+        android:textColor="@color/neutral2"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/enemyCounter"
@@ -74,9 +75,12 @@
         android:id="@+id/skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/montserrat"
-        android:text="Пропустить"
-        android:textSize="25sp"
+        android:background="@drawable/background_next_button"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
+        android:text="@string/next"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/enemyCounter"
         app:layout_constraintStart_toEndOf="@+id/youCounter"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -87,13 +91,16 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="21dp"
         android:layout_marginTop="32dp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/youCounter">
+        app:layout_constraintTop_toBottomOf="@+id/youCounter"
+        tools:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="vertical"
             android:padding="8dp"
             android:paddingVertical="60dp">
@@ -103,7 +110,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="40dp"
+                android:textColor="@color/dark"
+                android:textSize="40sp"
                 android:textStyle="bold"
                 tools:text="14 + 89" />
 
@@ -111,8 +119,9 @@
                 android:id="@+id/textField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/dark_transparent"
-                android:hint="Сколько будет?">
+                android:hint="@string/how_much_will">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_text"
@@ -127,26 +136,36 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ProgressBar
-                android:id="@+id/progress"
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp" />
+                android:layout_gravity="center">
 
+                <ProgressBar
+                    android:id="@+id/progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:id="@+id/progressInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/good_luck"
+                    android:textColor="@color/dark"
+                    app:layout_constraintBottom_toBottomOf="@+id/cardView"
+                    app:layout_constraintEnd_toEndOf="@+id/cardView"
+                    app:layout_constraintStart_toStartOf="@+id/cardView" />
+
+            </FrameLayout>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/progressInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:text="Удачи!"
-        app:layout_constraintBottom_toBottomOf="@+id/cardView"
-        app:layout_constraintEnd_toEndOf="@+id/cardView"
-        app:layout_constraintStart_toStartOf="@+id/cardView" />
-
-
+    <include
+        android:id="@+id/expectation"
+        layout="@layout/expectation"
+        tools:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

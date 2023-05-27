@@ -10,5 +10,6 @@
     <color name="global_text_on_dark">#F2F2F2</color>
     <color name="global_text_on_white">#10374F</color>
     <color name="neutral">#927559</color>
+    <color name="neutral2">#3E3328</color>
 
 </resources>
