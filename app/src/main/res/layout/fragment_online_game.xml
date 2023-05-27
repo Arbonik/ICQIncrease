@@ -168,4 +168,38 @@
         android:id="@+id/expectation"
         layout="@layout/expectation"
         tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/boardNegativeResult"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="42dp"
+        android:background="@drawable/background_result_negative"
+        android:fontFamily="@font/montserrat"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="@string/twilight_text_3"
+        android:textColor="@color/dark"
+        android:textSize="25sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+    <TextView
+        android:id="@+id/boardPositiveResult"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="42dp"
+        android:background="@drawable/background_result_positive"
+        android:fontFamily="@font/montserrat"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="@string/twilight_text_4"
+        android:textColor="@color/dark"
+        android:textSize="25sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

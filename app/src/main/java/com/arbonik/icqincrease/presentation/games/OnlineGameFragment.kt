@@ -121,31 +121,15 @@ class OnlineGameFragment : Fragment() {
                 GameStatus.WIN -> {
                     binding.progress.isInvisible = true
                     binding.progressInfo.isVisible = true
-                    AlertDialog.Builder(requireContext())
-                        .setTitle("Вы выиграли")
-                        .setOnDismissListener {
-                            parentFragmentManager.popBackStack()
-                        }
-                        .setPositiveButton("Ура!") { dialog, _ ->
-                            dialog.dismiss()
-                        }
-                        .create()
-                        .show()
+                    binding.cardView.isVisible = false
+                    binding.boardPositiveResult.isVisible = true
                 }
 
                 GameStatus.LOSE -> {
                     binding.progress.isInvisible = true
                     binding.progressInfo.visibility = View.GONE
-
-                    AlertDialog.Builder(requireContext())
-                        .setTitle("Вы проиграли")
-                        .setOnDismissListener {
-                            parentFragmentManager.popBackStack()
-                        }
-                        .setPositiveButton(":с") { dialog, _ ->
-                            dialog.dismiss()
-                        }
-                        .show()
+                    binding.cardView.isVisible = false
+                    binding.boardNegativeResult.isVisible = true
                 }
 
                 GameStatus.SHUTDOWN -> {
