@@ -6,6 +6,8 @@ fun Fragment.navigator(): Navigator {
     return requireActivity() as Navigator
 }
 interface Navigator {
+    fun showOnlineGameFragment()
+    fun showRegistrationFragment()
     fun showGameFragment()
     fun showStatisticsFragment()
     fun showMenuFragment()

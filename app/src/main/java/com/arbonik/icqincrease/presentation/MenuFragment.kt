@@ -33,6 +33,9 @@ class MenuFragment : Fragment() {
         binding.statistic.setOnClickListener {
             navigator().showStatisticsFragment()
         }
+        binding.onlineGame.setOnClickListener {
+            navigator().showOnlineGameFragment()
+        }
     }
 
     companion object {

@@ -47,7 +47,6 @@ android {
 }
 
 
-
 dependencies {
     val ktor_version = "2.3.0"
     implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")

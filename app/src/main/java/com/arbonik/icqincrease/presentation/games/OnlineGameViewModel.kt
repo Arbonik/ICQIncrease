@@ -28,7 +28,7 @@ class OnlineGameViewModel : ViewModel() {
 
     private val _sharedFlowIn : MutableSharedFlow<WSServerResponse> = MutableSharedFlow()
     val sharedFlowIn : SharedFlow<WSServerResponse> = _sharedFlowIn
-    fun connectToRoom(){
+    fun connectToRoom(gender: String, age: Int){
         // TODO progress bar
         viewModelScope.launch {
             val rooms = NetworkDataSource.allRoom()
@@ -40,8 +40,10 @@ class OnlineGameViewModel : ViewModel() {
 
             NetworkDataSource.connectToGame(
                 id,
+                gender,
+                age,
                 sharedFlowOut,
-                _sharedFlowIn
+                _sharedFlowIn,
             )
         }
     }

@@ -3,40 +3,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.games.GameFragment">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
+
     <TextView
         android:id="@+id/progress_info"
-        tools:text="WHAT HAPPENED"
-        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:textColor="@color/red"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:textSize="40dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:textSize="40sp"
+        android:visibility="gone"
+        tools:text="WHAT HAPPENED" />
+
     <TextView
-        android:id="@+id/status_info"
-        tools:text="WHAT HAPPENED"
-        android:textColor="#00FF00"
+        android:id="@+id/enemyCounter"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="top|end"
         android:gravity="center"
-        android:layout_gravity="center"
-        android:textSize="40dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_margin="50dp"
+        android:background="@drawable/background_card_dictionary_default"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:text="0"
+        tools:text="49" />
+
+    <TextView
+        android:id="@+id/youCounter"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="top|start"
+        android:gravity="center"
+        android:layout_margin="50dp"
+        android:background="@drawable/background_card_dictionary_default2"
+        android:textColor="@color/red"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:text="0"
+        tools:text="49" />
+
+
     <ProgressBar
         android:id="@+id/progress"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <EditText
-        android:id="@+id/enterAnswer"
-        android:gravity="center"
+        android:layout_width="100dp"
         android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+
+    <ProgressBar
+        android:id="@+id/skipProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="61dp"
+        android:layout_gravity="end|bottom"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </FrameLayout>

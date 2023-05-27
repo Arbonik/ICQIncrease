@@ -3,33 +3,38 @@ package com.arbonik.icqincrease.presentation.games
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.core.widget.addTextChangedListener
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.arbonik.icqincrease.R
 import com.arbonik.icqincrease.databinding.FragmentGameBinding
+import com.arbonik.icqincrease.network.Global
+import com.arbonik.icqincrease.presentation.view_pager.RealizationViewPager
 import com.mpmep.classes.GameStatus
 import com.mpmep.plugins.core.ExampleState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class OnlineGameFragment : Fragment(){
+class OnlineGameFragment : Fragment() {
 
     private lateinit var binding: FragmentGameBinding
-//    private lateinit var viewPager: RealizationViewPager<Game1Adapter.ViewHolder>
-    private var currentPos = 0
-
+    private lateinit var viewPager: RealizationViewPager<Game1Adapter.ViewHolder>
+    private var currentPage = 0
     private val adapter: Game1Adapter by lazy {
         Game1Adapter(mutableListOf())
     }
-    private val viewModel : OnlineGameViewModel by viewModels()
+    private val viewModel: OnlineGameViewModel by viewModels()
+    private var countEnemyCounter = -1
+    private var countYouCounter = -1
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,73 +42,57 @@ class OnlineGameFragment : Fragment(){
         binding = FragmentGameBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.connectToRoom()
-
-        binding.enterAnswer.addTextChangedListener { it ->
-            if (it?.isNotEmpty() == true)
-                viewModel.sendAnswer(it.toString().toInt())
-        }
-//        viewPager = RealizationViewPager(
-//            binding.viewPager,
-//            adapter,
-//            ::initViewsOnCurrentPage,
-//            ::onPageSelected
-//        )
+        viewPager = RealizationViewPager(
+            binding.viewPager,
+            adapter,
+            ::initViewsOnCurrentPage,
+            ::onPageSelected
+        )
         initListeners()
+        viewModel.connectToRoom(Global.gender, Global.age)
     }
 
     private fun initListeners() {
-        viewModel.sharedFlowIn.onEach { serverResponse->
-            when (serverResponse.gameStatus){
+        viewModel.sharedFlowIn.onEach { serverResponse ->
+            when (serverResponse.gameStatus) {
                 GameStatus.EMPTY -> {
                     if (serverResponse.example is ExampleState.Example) {
-                        binding.statusInfo.text = serverResponse.example.toString()
-
                         adapter.addItem(serverResponse.example)
-                        binding.progressInfo.text = serverResponse.example.toString()
-                        binding.progressInfo.visibility = View.VISIBLE
-//                        viewPager.jumpOnPageViewPager(currentPos++)
-//                        val view = Game1ExampleItemBinding.inflate(LayoutInflater.from(requireContext()), binding.root, false)
-//
-//                        view.number1.text = serverResponse.example.toString()
-//                        AlertDialog.Builder(requireContext())
-//                            .setTitle("Вы выиграли")
-//                            .setView(view.root)
-//                            .setOnDismissListener {
-//                                parentFragmentManager.popBackStack()
-//                            }
-//                            .setPositiveButton ("Ура!"){ dialog, _ ->
-//                                dialog.dismiss()
-//                            }
-//                            .create()
-//                            .show()
-
+                        viewPager.jumpOnPageViewPager(currentPage++)
+                        countYouCounter++
+                        binding.youCounter.text = countYouCounter.toString()
+                        binding.skipProgressBar.isVisible = false
                     }
-//                    else
-                        // TODO вопросы кончились
                 }
 
                 GameStatus.READY -> {
-
                     binding.progress.visibility = View.GONE
-                    binding.progressInfo.visibility = View.GONE
                 }
+
                 GameStatus.FALSE -> {
 
                 }
+
                 GameStatus.GOT_NEW_EXAMPLE -> {
-                    binding.progressInfo.text = "противник решил еще одну!"
+                    countEnemyCounter++
+                    binding.enemyCounter.text = countEnemyCounter.toString()
+                    if (countEnemyCounter != 0) {
+                        binding.progressInfo.text = "противник решил еще одну!"
+                    }
                     binding.progressInfo.visibility = View.VISIBLE
                     delay(1000)
                     binding.progressInfo.visibility = View.GONE
                 }
+
                 GameStatus.FINISH -> {
                     binding.progress.visibility = View.VISIBLE
                     binding.progressInfo.text = "ждем пока закончит другой игрок"
                     binding.progressInfo.visibility = View.VISIBLE
                 }
+
                 GameStatus.WIN -> {
                     binding.progress.visibility = View.GONE
                     binding.progressInfo.visibility = View.GONE
@@ -112,12 +101,13 @@ class OnlineGameFragment : Fragment(){
                         .setOnDismissListener {
                             parentFragmentManager.popBackStack()
                         }
-                        .setPositiveButton ("Ура!"){ dialog, _ ->
+                        .setPositiveButton("Ура!") { dialog, _ ->
                             dialog.dismiss()
                         }
                         .create()
                         .show()
                 }
+
                 GameStatus.LOSE -> {
                     binding.progress.visibility = View.GONE
                     binding.progressInfo.visibility = View.GONE
@@ -127,14 +117,16 @@ class OnlineGameFragment : Fragment(){
                         .setOnDismissListener {
                             parentFragmentManager.popBackStack()
                         }
-                        .setPositiveButton (":с"){ dialog, _ ->
+                        .setPositiveButton(":с") { dialog, _ ->
                             dialog.dismiss()
                         }
                         .show()
                 }
+
                 GameStatus.SHUTDOWN -> {
 
                 }
+
                 GameStatus.AWAIT -> {
                     binding.progress.visibility = View.VISIBLE
                     binding.progressInfo.visibility = View.VISIBLE
@@ -154,13 +146,15 @@ class OnlineGameFragment : Fragment(){
     private fun initViewsOnCurrentPage(pos: Int, holder: Game1Adapter.ViewHolder) {
         with(holder.binding) {
             skipButton.setOnClickListener {
+                binding.skipProgressBar.isVisible = true
+                skipButton.isVisible = false
                 viewModel.skipAnswer()
-//                viewPager.jumpOnPageViewPager(pos + 1)
+                viewPager.jumpOnPageViewPager(pos + 1)
             }
 
             result.setOnKeyListener { v, keyCode, event ->
                 val text = result.text.toString()
-                if(text.length >= 9 && keyCode != 67){
+                if (text.length >= 9 && keyCode != 67) {
                     return@setOnKeyListener true
                 }
                 if (text.isNotBlank() && text != "-") {

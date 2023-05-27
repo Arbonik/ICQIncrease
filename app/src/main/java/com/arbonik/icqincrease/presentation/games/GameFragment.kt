@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +24,7 @@ class GameFragment : Fragment() {
     private lateinit var viewPager: RealizationViewPager<Game1Adapter.ViewHolder>
     private var currentPos = 0
     private val viewModel: Game1ViewModel by viewModels()
+    private var currentCount = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +36,7 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.enemyCounter.isVisible = false
         viewPager = RealizationViewPager(
             binding.viewPager,
             viewModel.adapter,
@@ -47,6 +49,8 @@ class GameFragment : Fragment() {
     private fun initListeners() {
         viewModel.nextStateFlow.onEach {
             viewPager.jumpOnPageViewPager(currentPos++)
+            currentCount++
+            binding.youCounter.text = currentCount.toString()
         }.launchIn(lifecycleScope)
     }
 

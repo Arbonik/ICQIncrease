@@ -1,6 +1,5 @@
 package com.arbonik.icqincrease.network
 
-import com.mpmep.classes.GameStatus
 import com.mpmep.classes.WSServerResponse
 import com.mpmep.plugins.core.ExampleResponse
 import io.ktor.client.HttpClient
@@ -9,12 +8,12 @@ import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.plugins.websocket.webSocket
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.http.HttpMethod
+import io.ktor.http.parameters
 import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.websocket.Frame
@@ -28,7 +27,6 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.decodeFromJsonElement
 
 object NetworkDataSource {
     private val ktorClient : HttpClient by lazy {
@@ -57,10 +55,16 @@ object NetworkDataSource {
 
     suspend fun connectToGame(
         id: String,
+        gender: String,
+        age: Int,
         output : SharedFlow<ExampleResponse>,
         input : MutableSharedFlow<WSServerResponse>
     ){
         ktorClient.webSocket(method = HttpMethod.Get, host = "176.57.220.203", port = 8080, path = "/rooms/$id") {
+            parameters {
+                append("gender", gender)
+                append("age", age.toString())
+            }
             val messageOutputRoutine = launch {
                 output.onEach { example ->
                     outgoing.send(Frame.Text(
