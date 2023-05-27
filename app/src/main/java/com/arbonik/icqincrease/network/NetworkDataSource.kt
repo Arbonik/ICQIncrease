@@ -49,7 +49,7 @@ object NetworkDataSource {
         }
     }
 
-    private val BASE_URL = "http://192.168.1.12:8080"
+    private val BASE_URL = "http://176.57.220.203:8080"
     suspend fun createRoom() = ktorClient.post("$BASE_URL/rooms")
             .body<RoomRespond>()
     suspend fun allRoom() = ktorClient.get("$BASE_URL/rooms")
@@ -60,7 +60,7 @@ object NetworkDataSource {
         output : SharedFlow<ExampleResponse>,
         input : MutableSharedFlow<WSServerResponse>
     ){
-        ktorClient.webSocket(method = HttpMethod.Get, host = "192.168.1.12", port = 8080, path = "/rooms/$id") {
+        ktorClient.webSocket(method = HttpMethod.Get, host = "176.57.220.203", port = 8080, path = "/rooms/$id") {
             val messageOutputRoutine = launch {
                 output.onEach { example ->
                     outgoing.send(Frame.Text(
