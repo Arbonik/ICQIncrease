@@ -27,7 +27,7 @@ class MenuFragment : Fragment() {
     }
 
     private fun initListeners() {
-        binding.game1.setOnClickListener {
+        binding.workout.setOnClickListener {
             navigator().showGameFragment()
         }
         binding.statistic.setOnClickListener {

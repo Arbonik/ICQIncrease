@@ -5,9 +5,8 @@ import com.arbonik.icqincrease.network.Global
 
 class RegistrationViewModel: ViewModel() {
 
-    fun saveData(age: Int, gender: Boolean){
-        val dataGender = if(gender) "Women" else "Man"
+    fun saveData(age: Int, gender: String){
         Global.age = age
-        Global.gender = dataGender
+        Global.gender = gender
     }
 }

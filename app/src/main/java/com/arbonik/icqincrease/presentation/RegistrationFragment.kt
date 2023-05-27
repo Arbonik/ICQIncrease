@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.arbonik.icqincrease.R
 import com.arbonik.icqincrease.databinding.FragmentRegistrationBinding
@@ -16,6 +17,7 @@ class RegistrationFragment : Fragment() {
 
     private lateinit var binding: FragmentRegistrationBinding
     private val viewModel: RegistrationViewModel by viewModels()
+    private var gender = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,16 +29,37 @@ class RegistrationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initListeners()
+    }
+    private fun initListeners(){
         binding.buttonRegistration.setOnClickListener {
-            if(binding.age.text.isBlank()){
+            val age = binding.age.text.toString()
+            if(age.isBlank() || gender.isBlank()){
+                Toast.makeText(requireContext(), "Заполните все поля!", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
-            viewModel.saveData(binding.age.text.toString().toInt(), binding.radio1.isChecked)
+            viewModel.saveData(age.toInt(), gender)
             navigator().showMenuFragment()
+        }
+        binding.women.setOnClickListener {
+            if(gender != WOMEN) {
+                gender = WOMEN
+                binding.women.backgroundTintList = resources.getColorStateList(R.color.neutral)
+                binding.man.backgroundTintList = resources.getColorStateList(R.color.white)
+            }
+        }
+        binding.man.setOnClickListener {
+            if(gender != MAN) {
+                gender = MAN
+                binding.women.backgroundTintList = resources.getColorStateList(R.color.white)
+                binding.man.backgroundTintList = resources.getColorStateList(R.color.neutral)
+            }
         }
     }
 
     companion object {
+        const val WOMEN = "Women"
+        const val MAN = "Man"
         @JvmStatic
         fun newInstance() = RegistrationFragment()
     }

@@ -1,28 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_global"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".presentation.MenuFragment">
+    tools:context=".presentation.RegistrationFragment">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/game1"
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/sakura_big"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:scaleType="fitEnd"
+        android:src="@drawable/sakura"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Game 1" />
+        android:fontFamily="@font/montserrat_semibold"
+        android:text="Меню"
+        android:textColor="@color/dark"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/onlineGame"
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Игра по сети" />
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/statistic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Статистика" />
+        <TextView
+            android:id="@+id/workout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_menu_buttons"
+            android:fontFamily="@font/montserrat_extrabold"
+            android:gravity="center"
+            android:text="ТРЕНИРОВКА"
+            android:textColor="@color/global_text_on_white"
+            android:textSize="16sp" />
 
-</LinearLayout>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp" />
+
+        <TextView
+            android:id="@+id/onlineGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_menu_buttons"
+            android:fontFamily="@font/montserrat_extrabold"
+            android:gravity="center"
+            android:text="ОНЛАЙН ДУЭЛЬ"
+            android:textColor="@color/global_text_on_white"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp" />
+
+        <TextView
+            android:id="@+id/statistic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_menu_buttons"
+            android:fontFamily="@font/montserrat_extrabold"
+            android:gravity="center"
+            android:text="СТАТИСТИКА"
+            android:textColor="@color/global_text_on_white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
