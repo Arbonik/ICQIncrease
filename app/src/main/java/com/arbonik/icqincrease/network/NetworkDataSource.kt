@@ -10,7 +10,10 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.plugins.websocket.webSocket
+import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
+import io.ktor.client.request.invoke
+import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.http.HttpMethod
 import io.ktor.http.parameters
@@ -60,11 +63,12 @@ object NetworkDataSource {
         output : SharedFlow<ExampleResponse>,
         input : MutableSharedFlow<WSServerResponse>
     ){
-        ktorClient.webSocket(method = HttpMethod.Get, host = "176.57.220.203", port = 8080, path = "/rooms/$id") {
-            parameters {
-                append("gender", gender)
-                append("age", age.toString())
-            }
+        ktorClient.webSocket(
+            method = HttpMethod.Get,
+            host = "176.57.220.203",
+            port = 8080,
+            path = "/rooms/$id?gender=$gender&age=$age",
+        ) {
             val messageOutputRoutine = launch {
                 output.onEach { example ->
                     outgoing.send(Frame.Text(
