@@ -142,6 +142,16 @@ class OnlineGameFragment : Fragment() {
                     binding.progressInfo.visibility = View.VISIBLE
                     binding.progressInfo.text = "Ждем подключение игрока"
                 }
+                GameStatus.TIMEOUT -> {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Не удалось найти игру, попробуйте снова :)")
+                        .setOnDismissListener {
+                            parentFragmentManager.popBackStack()
+                        }
+                        .setPositiveButton("Ок"){ al, a ->
+                            al.dismiss()
+                        }
+                }
             }
         }.launchIn(lifecycleScope)
     }

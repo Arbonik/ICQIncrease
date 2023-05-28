@@ -1,5 +1,6 @@
 package com.arbonik.icqincrease.network
 
+import com.mpmep.classes.GameStatus
 import com.mpmep.classes.WSServerResponse
 import com.mpmep.plugins.core.ExampleResponse
 import io.ktor.client.HttpClient
@@ -39,6 +40,7 @@ object NetworkDataSource {
             }
             install(WebSockets){
                 pingInterval = 20_000
+
                 contentConverter = KotlinxWebsocketSerializationConverter(Json)
             }
             install(ContentNegotiation) {
@@ -63,27 +65,34 @@ object NetworkDataSource {
         output : SharedFlow<ExampleResponse>,
         input : MutableSharedFlow<WSServerResponse>
     ){
-        ktorClient.webSocket(
-            method = HttpMethod.Get,
-            host = "176.57.220.203",
-            port = 8080,
-            path = "/rooms/$id?gender=$gender&age=$age",
-        ) {
-            val messageOutputRoutine = launch {
-                output.onEach { example ->
-                    outgoing.send(Frame.Text(
-                        Json.encodeToString(example)
-                    ))
-                }.launchIn(this)
-            }
-            val userInputRoutine = launch {
-                for (frame in incoming){
-                    val response = Json.decodeFromString<WSServerResponse>((frame as Frame.Text).readText())
-                    input.emit(response)
+        try {
+            ktorClient.webSocket(
+                method = HttpMethod.Get,
+                host = "176.57.220.203",
+                port = 8080,
+                path = "/rooms/$id?gender=$gender&age=$age",
+            ) {
+                val messageOutputRoutine = launch {
+                    output.onEach { example ->
+                        outgoing.send(
+                            Frame.Text(
+                                Json.encodeToString(example)
+                            )
+                        )
+                    }.launchIn(this)
                 }
+                val userInputRoutine = launch {
+                    for (frame in incoming) {
+                        val response =
+                            Json.decodeFromString<WSServerResponse>((frame as Frame.Text).readText())
+                        input.emit(response)
+                    }
+                }
+                userInputRoutine.join()
+                messageOutputRoutine.cancelAndJoin()
             }
-            userInputRoutine.join()
-            messageOutputRoutine.cancelAndJoin()
+        } catch (e : Throwable){
+            input.emit(WSServerResponse(GameStatus.TIMEOUT))
         }
     }
 }

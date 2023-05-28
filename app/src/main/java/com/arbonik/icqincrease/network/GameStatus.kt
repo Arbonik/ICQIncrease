@@ -12,5 +12,6 @@ enum class GameStatus {
     LOSE,
     SHUTDOWN,
     AWAIT,
-    EMPTY
+    EMPTY,
+    TIMEOUT
 }
