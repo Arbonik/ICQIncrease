@@ -8,6 +8,7 @@ import com.arbonik.icqincrease.presentation.MenuFragment
 import com.arbonik.icqincrease.presentation.RegistrationFragment
 import com.arbonik.icqincrease.presentation.games.GameFragment
 import com.arbonik.icqincrease.presentation.games.OnlineGameFragment
+import com.arbonik.icqincrease.presentation.neuroTesting.NeuroFragment
 import com.arbonik.icqincrease.presentation.statistics.StatisticsFragment
 
 class MainActivity : AppCompatActivity(), Navigator {
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity(), Navigator {
     override fun showGameFragment() = launch(GameFragment.newInstance())
     override fun showStatisticsFragment() = launch(StatisticsFragment.newInstance())
     override fun showMenuFragment() = launch(MenuFragment.newInstance())
+    fun showNeuroFragment() = NeuroFragment.newInstance()
 
     private fun launch(fragment: Fragment) {
         supportFragmentManager

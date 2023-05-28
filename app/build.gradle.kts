@@ -38,6 +38,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        mlModelBinding = true
     }
 
 
@@ -62,11 +63,15 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.7.2")
     implementation("androidx.fragment:fragment-ktx:1.5.7")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation("androidx.fragment:fragment-ktx:1.5.7")
     implementation("io.ktor:ktor-client-logging:$ktor_version")
-    implementation("org.slf4j:slf4j-simple:2.0.0-alpha1")
+    implementation("org.slf4j:slf4j-simple:2.0.7")
     implementation("me.tankery.lib:circularSeekBar:1.4.2")
+
+    implementation ("org.tensorflow:tensorflow-lite-support:0.4.3")
+    implementation ("org.tensorflow:tensorflow-lite-metadata:0.1.0-rc2")
+
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
