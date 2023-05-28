@@ -9,6 +9,5 @@ interface Navigator {
     fun showOnlineGameFragment()
     fun showRegistrationFragment()
     fun showGameFragment()
-    fun showStatisticsFragment()
     fun showMenuFragment()
 }

@@ -16,7 +16,7 @@ class MenuFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMenuBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -29,9 +29,6 @@ class MenuFragment : Fragment() {
     private fun initListeners() {
         binding.workout.setOnClickListener {
             navigator().showGameFragment()
-        }
-        binding.statistic.setOnClickListener {
-            navigator().showStatisticsFragment()
         }
         binding.onlineGame.setOnClickListener {
             navigator().showOnlineGameFragment()

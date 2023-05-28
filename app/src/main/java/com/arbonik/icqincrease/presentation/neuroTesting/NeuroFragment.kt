@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -33,6 +34,8 @@ class NeuroFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (binding.expectation.root as View).isVisible = false
+        binding.cardView.isVisible = true
         initListeners()
     }
 
@@ -48,7 +51,7 @@ class NeuroFragment : Fragment() {
                 showKeyboard.showSoftInput(binding.inputText, InputMethodManager.SHOW_IMPLICIT)
                 binding.inputText.requestFocus()
             }
-            if (example is ExampleState.Example){
+            if (example is ExampleState.ExampleEnd){
                 AlertDialog.Builder(requireContext())
                     .setTitle("Возраст вашего мозга:")
                     .setMessage("${viewModel.currentState.value}")

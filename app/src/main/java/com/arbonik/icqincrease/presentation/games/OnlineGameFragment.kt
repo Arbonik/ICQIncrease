@@ -133,7 +133,7 @@ class OnlineGameFragment : Fragment() {
                 }
 
                 GameStatus.SHUTDOWN -> {
-
+                    parentFragmentManager.popBackStack()
                 }
 
                 GameStatus.AWAIT -> {

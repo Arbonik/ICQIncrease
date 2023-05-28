@@ -3,6 +3,7 @@ package com.arbonik.icqincrease.presentation.neuroTesting
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arbonik.icqincrease.core.Game
 import com.arbonik.icqincrease.core.Operate
@@ -61,12 +62,11 @@ class NeuroViewModel(application: Application) : AndroidViewModel(
             inputFeature0.loadArray(
                 dataToModel
             )
-            Log.d("DATA IN MODEL", dataToModel.joinToString())
             val outputs = model.process(inputFeature0)
             val outputFeature0 = outputs.outputFeature0AsTensorBuffer
             Log.d("DATA IN MODEL", outputFeature0.floatArray.joinToString())
 
-            _currentState.value += (outputFeature0.floatArray.first() * 500).toInt()
+            _currentState.value += (outputFeature0.floatArray.first() * 700).toInt()
             Log.d("DATA IN MODEL", _currentState.value.toString())
 
         }

@@ -23,10 +23,8 @@ class MainActivity : AppCompatActivity(), Navigator {
 
     override fun showOnlineGameFragment() = launch(OnlineGameFragment.newInstance())
     override fun showRegistrationFragment() = launch(RegistrationFragment.newInstance())
-    override fun showGameFragment() = launch(GameFragment.newInstance())
-    override fun showStatisticsFragment() = launch(StatisticsFragment.newInstance())
+    override fun showGameFragment() = launch(NeuroFragment.newInstance())
     override fun showMenuFragment() = launch(MenuFragment.newInstance())
-    fun showNeuroFragment() = NeuroFragment.newInstance()
 
     private fun launch(fragment: Fragment) {
         supportFragmentManager

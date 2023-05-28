@@ -77,21 +77,6 @@
             android:text="ОНЛАЙН ДУЭЛЬ"
             android:textColor="@color/global_text_on_white"
             android:textSize="16sp" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="8dp" />
-
-        <TextView
-            android:id="@+id/statistic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_menu_buttons"
-            android:fontFamily="@font/montserrat_extrabold"
-            android:gravity="center"
-            android:text="СТАТИСТИКА"
-            android:textColor="@color/global_text_on_white"
-            android:textSize="16sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
