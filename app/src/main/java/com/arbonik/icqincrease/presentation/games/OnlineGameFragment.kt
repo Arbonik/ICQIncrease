@@ -19,12 +19,16 @@ import com.mpmep.classes.GameStatus
 import com.mpmep.plugins.core.ExampleState
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.util.Timer
+import java.util.TimerTask
+
 
 class OnlineGameFragment : Fragment() {
 
     private lateinit var binding: FragmentOnlineGameBinding
 
     private val viewModel: OnlineGameViewModel by viewModels()
+    private val myTimer: Timer = Timer()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +44,21 @@ class OnlineGameFragment : Fragment() {
         viewModel.connectToRoom(Global.gender, Global.age)
     }
 
+    private var currentTime = 0
     private fun initListeners() {
+        myTimer.schedule(object : TimerTask() {
+            override fun run() {
+                currentTime++
+                binding.expectation.currentTime.text =
+                    "${currentTime / 60}:${
+                        if (currentTime % 60 < 10) {
+                            "0"
+                        } else {
+                            ""
+                        }
+                    }${currentTime % 60}"
+            }
+        }, 0, 1000)
         binding.skip.setOnClickListener {
             viewModel.skipAnswer()
         }
@@ -56,14 +74,23 @@ class OnlineGameFragment : Fragment() {
             when (serverResponse.gameStatus) {
                 GameStatus.EMPTY -> {
                     if (serverResponse.example is ExampleState.Example) {
-                        binding.progressInfo.text = "Верно!"
+                        if (binding.youCounter.text != "0") {
+                            binding.progressInfo.text = "Верно!"
+                        } else {
+                            binding.progressInfo.text = "Удачи!"
+                            binding.cardView.isInvisible = false
+                            (binding.expectation.root as View).isVisible = false
+                        }
                         binding.example.text = serverResponse.example.toString()
                         binding.progress.isInvisible = true
                         binding.inputText.text?.clear()
                         binding.inputText.requestFocus()
                         val showKeyboard =
                             requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                        showKeyboard.showSoftInput(binding.inputText, InputMethodManager.SHOW_IMPLICIT)
+                        showKeyboard.showSoftInput(
+                            binding.inputText,
+                            InputMethodManager.SHOW_IMPLICIT
+                        )
                         binding.inputText.requestFocus()
                         binding.youCounter.text = (serverResponse.score ?: -1).toString()
                     }
@@ -78,46 +105,31 @@ class OnlineGameFragment : Fragment() {
                 }
 
                 GameStatus.GOT_NEW_EXAMPLE -> {
-
                     binding.enemyCounter.text = (serverResponse.score ?: -1).toString()
                     binding.enemyCounter
                 }
 
                 GameStatus.FINISH -> {
-                    binding.progress.visibility = View.VISIBLE
+//                    binding.progress.visibility = View.VISIBLE
                     binding.progressInfo.text = "Ждем пока закончит другой игрок"
                     binding.inputText.isEnabled = false
+                    binding.inputText.isVisible =false
+                    binding.example.isVisible = false
                     binding.skip.isEnabled = false
                 }
 
                 GameStatus.WIN -> {
                     binding.progress.isInvisible = true
                     binding.progressInfo.isVisible = true
-                    AlertDialog.Builder(requireContext())
-                        .setTitle("Вы выиграли")
-                        .setOnDismissListener {
-                            parentFragmentManager.popBackStack()
-                        }
-                        .setPositiveButton("Ура!") { dialog, _ ->
-                            dialog.dismiss()
-                        }
-                        .create()
-                        .show()
+                    binding.cardView.isVisible = false
+                    binding.boardPositiveResult.isVisible = true
                 }
 
                 GameStatus.LOSE -> {
                     binding.progress.isInvisible = true
                     binding.progressInfo.visibility = View.GONE
-
-                    AlertDialog.Builder(requireContext())
-                        .setTitle("Вы проиграли")
-                        .setOnDismissListener {
-                            parentFragmentManager.popBackStack()
-                        }
-                        .setPositiveButton(":с") { dialog, _ ->
-                            dialog.dismiss()
-                        }
-                        .show()
+                    binding.cardView.isVisible = false
+                    binding.boardNegativeResult.isVisible = true
                 }
 
                 GameStatus.SHUTDOWN -> {
@@ -125,6 +137,7 @@ class OnlineGameFragment : Fragment() {
                 }
 
                 GameStatus.AWAIT -> {
+                    binding.cardView.isInvisible = true
                     binding.progress.isInvisible = false
                     binding.progressInfo.visibility = View.VISIBLE
                     binding.progressInfo.text = "Ждем подключение игрока"
