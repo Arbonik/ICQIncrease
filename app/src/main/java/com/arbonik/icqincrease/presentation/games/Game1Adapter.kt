@@ -1,7 +1,10 @@
 package com.arbonik.icqincrease.presentation.games
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.arbonik.icqincrease.databinding.Game1ExampleItemBinding
@@ -12,12 +15,6 @@ class Game1Adapter(
     private val examples: MutableList<ExampleState.Example>
 ) : AdapterViewPager<Game1Adapter.ViewHolder>() {
 
-    fun addItem(item: ExampleState.Example) {
-        examples.add(item)
-//        notifyItemChanged(examples.lastIndex)
-        notifyDataSetChanged()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             Game1ExampleItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,13 +23,26 @@ class Game1Adapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder.binding) {
-            number1.text = examples[position].first.toString()
-            number2.text = examples[position].second.toString()
-            operator.text = examples[position].op.s
-            result.text.clear()
+            example.text = examples[position].toString()
+            result.text?.clear()
             skipButton.isVisible = true
+//            view.postDelayed({
+                focusInputAndAppearanceKeyboard(result)
+//            },300)
         }
         holderCache[position] = holder
+    }
+
+    /** Фокусировка на ввод названия рецепта и автоматическое появление клавиатуры для ввода */
+    private fun focusInputAndAppearanceKeyboard(editText: EditText) {
+        if (editText.requestFocus()) {
+            val imm =
+                editText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+            imm!!.toggleSoftInput(
+                InputMethodManager.SHOW_FORCED,
+                InputMethodManager.HIDE_IMPLICIT_ONLY
+            )
+        }
     }
 
     override fun getItemCount(): Int = examples.size

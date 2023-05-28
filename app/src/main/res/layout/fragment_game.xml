@@ -11,45 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/progress_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textColor="@color/red"
-        android:textSize="40sp"
-        android:visibility="gone"
-        tools:text="WHAT HAPPENED" />
-
-    <TextView
-        android:id="@+id/enemyCounter"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="top|end"
-        android:gravity="center"
-        android:layout_margin="50dp"
-        android:background="@drawable/background_card_dictionary_default"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:text="0"
-        tools:text="49" />
-
-    <TextView
-        android:id="@+id/youCounter"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="top|start"
-        android:gravity="center"
-        android:layout_margin="50dp"
-        android:background="@drawable/background_card_dictionary_default2"
-        android:textColor="@color/red"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:text="0"
-        tools:text="49" />
-
+    <include
+        android:id="@+id/settingTheDifficulty"
+        layout="@layout/setting_the_difficulty"/>
 
     <ProgressBar
         android:id="@+id/progress"
@@ -59,14 +23,5 @@
         android:visibility="gone" />
 
 
-    <ProgressBar
-        android:id="@+id/skipProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="61dp"
-        android:layout_gravity="end|bottom"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </FrameLayout>

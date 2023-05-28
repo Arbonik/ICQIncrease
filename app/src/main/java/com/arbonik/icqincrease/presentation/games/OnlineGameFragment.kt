@@ -110,7 +110,6 @@ class OnlineGameFragment : Fragment() {
                 }
 
                 GameStatus.FINISH -> {
-//                    binding.progress.visibility = View.VISIBLE
                     binding.progressInfo.text = "Ждем пока закончит другой игрок"
                     binding.inputText.isEnabled = false
                     binding.inputText.isVisible =false

@@ -1,12 +1,9 @@
 package com.arbonik.icqincrease.presentation.games
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,7 +21,6 @@ class GameFragment : Fragment() {
     private lateinit var viewPager: RealizationViewPager<Game1Adapter.ViewHolder>
     private var currentPos = 0
     private val viewModel: Game1ViewModel by viewModels()
-    private var currentCount = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,29 +32,36 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.enemyCounter.isVisible = false
+        initListeners()
+    }
+
+    private fun initListeners() {
+        binding.settingTheDifficulty.light.setOnClickListener {
+            start()
+        }
+        binding.settingTheDifficulty.middle.setOnClickListener {
+            start()
+        }
+        binding.settingTheDifficulty.hard.setOnClickListener {
+            start()
+        }
+    }
+
+    private fun start() {
+        binding.settingTheDifficulty.root.isVisible = false
         viewPager = RealizationViewPager(
             binding.viewPager,
             viewModel.adapter,
             ::initViewsOnCurrentPage,
             ::onPageSelected
         )
-        initListeners()
-    }
-
-    private fun initListeners() {
         viewModel.nextStateFlow.onEach {
             viewPager.jumpOnPageViewPager(currentPos++)
-            currentCount++
-            binding.youCounter.text = currentCount.toString()
         }.launchIn(lifecycleScope)
+
     }
 
     private fun onPageSelected(pos: Int) {
-        val holder = viewModel.adapter.getViewHolderByPosition(pos)
-        holder?.let {
-            focusInputAndAppearanceKeyboard(it.binding.result)
-        }
     }
 
     private fun initViewsOnCurrentPage(pos: Int, holder: Game1Adapter.ViewHolder) {
@@ -70,7 +73,7 @@ class GameFragment : Fragment() {
 
             result.setOnKeyListener { v, keyCode, event ->
                 val text = result.text.toString()
-                if(text.length >= 9 && keyCode != 67){
+                if (text.length >= 9 && keyCode != 67) {
                     return@setOnKeyListener true
                 }
                 if (text.isNotBlank() && text != "-") {
@@ -82,18 +85,6 @@ class GameFragment : Fragment() {
                 }
                 false
             }
-        }
-    }
-
-    /** Фокусировка на ввод названия рецепта и автоматическое появление клавиатуры для ввода */
-    private fun focusInputAndAppearanceKeyboard(editText: EditText) {
-        if (editText.requestFocus()) {
-            val imm =
-                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-            imm!!.toggleSoftInput(
-                InputMethodManager.SHOW_FORCED,
-                InputMethodManager.HIDE_IMPLICIT_ONLY
-            )
         }
     }
 
